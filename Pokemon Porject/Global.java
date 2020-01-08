@@ -30,6 +30,7 @@ public interface Global
 	int FREEZE = 34;
 	int FLINCH = 35;
 	int CONFUSION = 36;
+	int NORMAL = 37;
 
 //EEFECTIVENESS
 	HashMap[] typeChart = new HashMap[8];
