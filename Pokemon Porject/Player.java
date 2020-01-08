@@ -26,7 +26,7 @@ public abstract class Player
 		for (int i = 0; i < 6; i++)
 		{
 			int num = rand.nextInt(poks.size());
-			pokemon[i].setStats(poks.get(num));
+			//pokemon[i].setStats(poks.get(num));
 			poks.remove(num); //Don't remove it; need to implement this
 		}
 	}
