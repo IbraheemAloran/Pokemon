@@ -2,7 +2,7 @@
 
 Pokemon arena is a pokemon battle simulator for Windows machines similar to Pokemon showdown built using JavaFx.
 
-![Screenshot of the battle scene](Battle-ScreenShot.jpeg)
+![Screenshot of the battle scene](Pokemon Project\images\Battle-ScreenShot.jpeg)
 
 Sprites from Pokemon Black 2/White 2 are used and battle calculations are based on the original calculations in the game with
 some minor differences, such as not accounting for some modifiers. 
