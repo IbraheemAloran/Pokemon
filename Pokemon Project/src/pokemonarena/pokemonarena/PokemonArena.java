@@ -56,6 +56,7 @@ public class PokemonArena extends Application {
     @Override
     public void start(Stage window) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("pokemonarena.fxml"));
+        window.setTitle("Pokemon Arena");
         loadMenuBar();
         loadBattleGraphics();
         loadMoveButtons();
@@ -222,7 +223,7 @@ public class PokemonArena extends Application {
     public void updateMoveButtons(){
         for(int i=0; i<activeClose.moves.length; i++){
             moveButtons[i].setText(activeClose.moves[i]+"\nPP: 25/25");
-            String message = "\nUsed "+activeClose.moves[i];
+            String message = "\n"+activeClose.getName()+" Used "+activeClose.moves[i]+"!";
             moveButtons[i].setOnAction(e -> attack(message));
             Tooltip t = new Tooltip("PP: 25/25\nType: Water\nCategory: Special\nPower: 150\n Effect: Does tons of damage");
             Tooltip.install(moveButtons[i], t);
