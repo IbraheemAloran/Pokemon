@@ -10,7 +10,9 @@ public class Move implements Global{
 	private int cat;
 
 	public Move(String data){
-	//fire punch,15,8,75,100,7,10 21
+	//example: fire punch,15,8,75,100,7,10 21
+			 //name,powerpoints,power,accuracy,category,effect
+			 //first number in effect is percentage the effect will happen, second is the effect number
 		String[] info = data.split(",");
 		name = info[0];
 		pp = Integer.parseInt(info[1]);
