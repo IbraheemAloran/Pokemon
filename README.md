@@ -9,6 +9,7 @@ with two PC's through a LAN connection.
 
 ##Screenshots
 Battle screenshot:
+
 ![Screenshot of the battle scene](Pokemon%20Project/images/Battle-ScreenShot.jpeg)
 
 
