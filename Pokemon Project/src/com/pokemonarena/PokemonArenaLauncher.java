@@ -1,5 +1,6 @@
-package pokemonarena;
+package com.pokemonarena;
 
+import com.pokemonarena.graphics.PokemonArena;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

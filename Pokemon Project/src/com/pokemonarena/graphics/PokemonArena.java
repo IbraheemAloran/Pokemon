@@ -1,11 +1,13 @@
-package pokemonarena;
+package com.pokemonarena.graphics;
+
+import com.pokemonarena.Global;
+import com.pokemonarena.Pokemon;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,7 +20,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class PokemonArena extends Application {
+public class PokemonArena extends Application implements Global {
 
     Pokemon[] party = new Pokemon[6];
     Pokemon activeClose;
@@ -56,7 +58,7 @@ public class PokemonArena extends Application {
     @Override
     public void start(Stage window) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("pokemonarena.fxml"));
-        window.setTitle("Pokemon Arena");
+        window.setTitle("Pokemon com.pokemonarena.graphics.Arena");
         loadMenuBar();
         loadBattleGraphics();
         loadMoveButtons();
@@ -78,7 +80,7 @@ public class PokemonArena extends Application {
         layout.getChildren().add(switchLayout);
 
         Scene scene = new Scene(layout, 800, 790);
-        scene.getStylesheets().add("pokemonarena/Dark.css");
+        scene.getStylesheets().add("com/pokemonarena/graphics/Dark.css");
         window.setScene(scene);
         window.show();
     }
@@ -119,26 +121,26 @@ public class PokemonArena extends Application {
         party[3] =  new Pokemon("Rhyperior", 100,  new String[]{"earthquake", "Surf", "Water Pulse", "Hydro pump"});
         party[4] =  new Pokemon("Arceus", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
         party[5] =  new Pokemon("blastoise", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
-        party[5].setFainted(true);
+        party[5].setFainted();
         imageViewActiveClose = new ImageView(activeClose.getBack());
         imageViewActiveFar = new ImageView(activeFar.getFront());
 
         battleGraphics.getChildren().add(imageViewActiveClose);
         battleGraphics.getChildren().add(imageViewActiveFar);
 
-        closeNameLabel = new Label(activeClose.name+" lvl."+activeClose.level);
+        closeNameLabel = new Label(activeClose.getName()+" lvl."+activeClose.getLevel());
 
-        pbClose = new ProgressBar(activeClose.getCurrentHP()/activeClose.getMaxHP());
+        pbClose = new ProgressBar(activeClose.getStats(HP)/activeClose.getMaxHP());
 
-        farNameLabel = new Label(activeFar.name+" lvl."+activeFar.level);
+        farNameLabel = new Label(activeFar.getName()+" lvl."+activeFar.getLevel());
 
-        pbFar = new ProgressBar(activeFar.currentHP/activeFar.maxHP);
+        pbFar = new ProgressBar(activeFar.getStats(HP)/activeFar.getMaxHP());
     }
 
     public void updateActivePokemon(){
         //-----------------close---------------------------------------
         //setting the image view of active pokemon in play
-        imageViewActiveClose.setImage(activeClose.back);
+        imageViewActiveClose.setImage(activeClose.getBack());
 
         //setting the fit height and width of the image view
         imageViewActiveClose.setScaleX(2);
@@ -149,20 +151,20 @@ public class PokemonArena extends Application {
         imageViewActiveClose.setX(100);
         imageViewActiveClose.setY(300);
 
-        //name
-        closeNameLabel.setText(activeClose.name+" lvl."+activeClose.level);
+        //getName()
+        closeNameLabel.setText(activeClose.getName()+" lvl."+activeClose.getLevel());
         closeNameLabel.setLayoutX(90);
         closeNameLabel.setLayoutY(196);
 
         //HPbar
-        pbClose.setProgress(activeClose.getCurrentHP()/activeClose.getMaxHP());
+        pbClose.setProgress(activeClose.getStats(HP)/activeClose.getMaxHP());
         pbClose.setMinWidth(180);
         //pbClose.setMinHeight(10);
         pbClose.setLayoutX(80);
         pbClose.setLayoutY(220);
 
         //---------------------far-----------------------------------------
-        imageViewActiveFar.setImage(activeFar.front);
+        imageViewActiveFar.setImage(activeFar.getFront());
 
         //setting the fit height and width of the image view
         imageViewActiveFar.setScaleX(2);
@@ -173,11 +175,11 @@ public class PokemonArena extends Application {
         imageViewActiveFar.setY(100);
 
         //label
-        farNameLabel.setText(activeFar.name+" lvl."+activeFar.level);
+        farNameLabel.setText(activeFar.getName()+" lvl."+activeFar.getLevel());
         farNameLabel.setLayoutX(550);
         farNameLabel.setLayoutY(16);
         //Hpbar
-        pbFar.setProgress(activeFar.currentHP/activeFar.maxHP);
+        pbFar.setProgress(activeFar.getStats(HP)/activeFar.getMaxHP());
         pbFar.setLayoutX(530);
         pbFar.setLayoutY(40);
         pbFar.setMinWidth(180);
@@ -220,14 +222,14 @@ public class PokemonArena extends Application {
     }
 
     //updates the moves the move buttons hold
-    public void updateMoveButtons(){
-        for(int i=0; i<activeClose.moves.length; i++){
-            moveButtons[i].setText(activeClose.moves[i]+"\nPP: 25/25");
-            String message = "\n"+activeClose.getName()+" Used "+activeClose.moves[i]+"!";
+    public void updateMoveButtons(){ //must implement with new moves
+        /*for(int i=0; i<4; i++){
+            moveButtons[i].setText(activeClose.getMoves(i).getName()+"\nPP: 25/25");
+            String message = "\n"+activeClose.getName()+" Used "+activeClose.getMoves(i).getName()+"!";
             moveButtons[i].setOnAction(e -> attack(message));
-            Tooltip t = new Tooltip("PP: 25/25\nType: Water\nCategory: Special\nPower: 150\n Effect: Does tons of damage");
+            Tooltip t = new Tooltip("PP: 25/25\nType: Water\nCategory: Special\nPower: 150\n com.pokemonarena.move.Effect: Does tons of damage");
             Tooltip.install(moveButtons[i], t);
-        }
+        }*/
     }
 
     public void loadMoveButtons(){
@@ -245,7 +247,7 @@ public class PokemonArena extends Application {
         movesLayout.setSpacing(30);
 
         //intialize buttons
-        for(int i=0; i<activeClose.moves.length; i++){
+        for(int i=0; i<4; i++){
             moveButtons[i] = new Button();
             moveButtons[i].setMinHeight(50);
             moveButtons[i].setMinWidth(100);
@@ -272,16 +274,16 @@ public class PokemonArena extends Application {
         switchLayout.setAlignment(Pos.CENTER);
 
         for(int i=0; i<party.length; i++){
-            ImageView buttonImage = new ImageView(party[i].front);
+            ImageView buttonImage = new ImageView(party[i].getFront());
             buttonImage.setFitHeight(25);
             buttonImage.setFitWidth(25);
-            switchButtons[i] = new Button(party[i].name, buttonImage);
+            switchButtons[i] = new Button(party[i].getName(), buttonImage);
             switchButtons[i].setMinHeight(50);
             switchButtons[i].setMinWidth(100);
-            Tooltip t = new Tooltip("Name: "+party[i].getName()+"\nLevel: "+party[i].getLevel());
+            Tooltip t = new Tooltip("getName(): "+party[i].getName()+"\ngetLevel(): "+party[i].getLevel());
             Tooltip.install(switchButtons[i], t);
 
-            String message = "\nSwitched to "+party[i].name;
+            String message = "\nSwitched to "+party[i].getName();
             Pokemon newPokemon = party[i];
             switchButtons[i].setOnAction(e -> {
                 if(activeClose == newPokemon){
@@ -320,7 +322,7 @@ public class PokemonArena extends Application {
         Pokemon defending = activeFar;
         Pokemon attacking = activeClose;
         battleInfo.appendText(message);
-        defending.currentHP = defending.currentHP-10;
+        defending.setStats(HP, defending.getStats(HP) - 10);
         try {
             //loadBackground();
             updateActivePokemon();

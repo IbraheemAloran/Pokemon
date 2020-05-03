@@ -15,15 +15,15 @@ public class Pokemon
 		String[] info = data[0].split(",");
 		name = info[0];
 		type = Integer.parseInt(info[1]);
-		status = Integer.parseInt(info[2]);
+		status = 37;
 		//level = Integer.parseInt(info[1]);
 		level = 100;
-		stats[0] = Integer.parseInt(info[3]);
-		stats[1] = Integer.parseInt(info[4]);
-		stats[2] = Integer.parseInt(info[5]);
-		stats[3] = Integer.parseInt(info[6]);
-		stats[4] = Integer.parseInt(info[7]);
-		stats[5] = Integer.parseInt(info[8]);
+		stats[0] = Integer.parseInt(info[2]);
+		stats[1] = Integer.parseInt(info[3]);
+		stats[2] = Integer.parseInt(info[4]);
+		stats[3] = Integer.parseInt(info[5]);
+		stats[4] = Integer.parseInt(info[6]);
+		stats[5] = Integer.parseInt(info[7]);
 		fainted = false;
 		
 		moves = new Move[4];
