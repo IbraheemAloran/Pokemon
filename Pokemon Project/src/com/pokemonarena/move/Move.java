@@ -25,7 +25,9 @@ public class Move implements Global {
 		power = Integer.parseInt(info[3]);
 		acc = Integer.parseInt(info[4]);
 		cat = Integer.parseInt(info[5]);
-		effect = new Effect(info[6]);
+		if(info.length == 7){ //if a effect is in the string
+			effect = new Effect(info[6]);
+		}
 	}
 
 	public boolean useMove(Pokemon attacking, Pokemon defending){
@@ -62,8 +64,7 @@ public class Move implements Global {
 	private boolean hit(){
 		Random rand = new Random();
 		int choice = rand.nextInt(100);
-		if (choice <= acc) return true;
-		return false; 
+		return choice <= acc;
 	}
 
 	public String getName(){
