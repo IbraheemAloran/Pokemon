@@ -2,7 +2,7 @@ package com.pokemonarena.graphics;
 
 import com.pokemonarena.Global;
 import com.pokemonarena.Pokemon;
-
+import com.pokemonarena.player.HumanPlayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -19,46 +19,66 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class PokemonArena extends Application implements Global {
 
-    Pokemon[] party = new Pokemon[6];
-    Pokemon activeClose;
-    Pokemon activeFar;
+    private HumanPlayer p1, p2;
+    private boolean turn;    //TRUE= p1 TURN, FALSE = p2 TURN
+    private ArrayList<Pokemon> pokedex;        //LIST OF ALL POKEMON
+    private Scanner kb;
 
-    Button[] moveButtons = new Button[4];
-    Button[] switchButtons = new Button[6];
+    private Pokemon[] party = new Pokemon[6];
+    private Pokemon activeClose, activeFar;
 
-    Image background;
-    ImageView imageViewActiveClose;
-    ImageView imageViewActiveFar;
-    ImageView imageViewBackground;
+    private Button[] moveButtons = new Button[4];
+    private Button[] switchButtons = new Button[6];
 
-    ProgressBar pbClose;
-    ProgressBar pbFar;
+    private Image background;
+    private ImageView imageViewActiveClose, imageViewActiveFar, imageViewBackground;
 
-    Label closeNameLabel;
-    Label farNameLabel;
-    Label movesLabel;
-    Label switchLabel;
+    private ProgressBar pbClose, pbFar;
 
-    Group battleGraphics;
+    private Label closeNameLabel, farNameLabel, movesLabel, switchLabel;
 
-    MenuBar menuBar;
+    private Group battleGraphics;
 
-    TextArea battleInfo;
+    private MenuBar menuBar;
 
-    Separator sep;
+    private TextArea battleInfo;
 
-    HBox movesLayout;
-    HBox switchLayout;
+    private Separator sep;
 
-    VBox layout;
+    private HBox movesLayout, switchLayout;
+
+    private VBox layout;
 
     @Override
     public void start(Stage window) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("pokemonarena.fxml"));
-        window.setTitle("Pokemon com.pokemonarena.graphics.Arena");
+        loadPokemon();
+        kb = new Scanner(System.in); //for getting input
+
+        System.out.println("Please Enter the name for Player 1:");
+        p1 = new HumanPlayer(kb.nextLine());
+        System.out.println("Please Enter the name for Player 2:");
+        p2 = new HumanPlayer(kb.nextLine());
+        turn = coinToss();
+
+        window.setTitle("Pokemon Arena");
+        loadGraphics();
+        loadLayout();
+        //moveButtons[0].setId("water-button");
+
+        Scene scene = new Scene(layout, 800, 790);
+        scene.getStylesheets().add("com/pokemonarena/graphics/Dark.css"); //load custom theme
+        window.setScene(scene);
+        window.show();
+    }
+
+    public void loadGraphics() throws Exception {
         loadMenuBar();
         loadBattleGraphics();
         loadMoveButtons();
@@ -66,8 +86,9 @@ public class PokemonArena extends Application implements Global {
         loadSwitchButtons();
         updateSwitchButtons();
         loadSeparator();
-        moveButtons[0].setId("water-button");
+    }
 
+    public void loadLayout() {
         layout = new VBox();
         layout.setAlignment(Pos.TOP_CENTER);
 
@@ -78,11 +99,41 @@ public class PokemonArena extends Application implements Global {
         layout.getChildren().add(sep);
         layout.getChildren().add(switchLabel);
         layout.getChildren().add(switchLayout);
+    }
 
-        Scene scene = new Scene(layout, 800, 790);
-        scene.getStylesheets().add("com/pokemonarena/graphics/Dark.css");
-        window.setScene(scene);
-        window.show();
+    //THIS FUNCTION DECIDES WHO STARTS THE MATCH
+    public boolean coinToss() {
+        //CHECK IF P1 HAS A FASTER POKEMON
+        if (p1.getActivePok().getStats(SPEED) > p2.getActivePok().getStats(SPEED)) {
+            return true;
+        }
+        //CHECK IF P2 HAS A FATSER POKEMON
+        if (p1.getActivePok().getStats(SPEED) < p2.getActivePok().getStats(SPEED)) {
+            return false;
+        }
+        //OTHERWISE DECIDES RANDOMLY
+        else {
+            Random rand = new Random();
+            return rand.nextBoolean();
+        }
+    }
+
+    //THIS FUNCTION LOADS ALL THE POKEMON FROM THE TEXT FILE
+    private void loadPokemon() {
+        Scanner inputStream = null;
+        try {
+            inputStream = new Scanner(new FileInputStream(""));
+            while (inputStream.hasNextLine()) {
+                String[] data = new String[5];
+                for (int i = 0; i < 5; i++) {
+                    data[i] = inputStream.nextLine();
+                }
+                pokedex.add(new Pokemon(data));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
+        inputStream.close();
     }
 
     public void loadBackground() throws FileNotFoundException {

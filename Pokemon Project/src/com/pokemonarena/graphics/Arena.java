@@ -1,11 +1,14 @@
 package com.pokemonarena.graphics; /********BATTLE ARENA CLASS*********/
+
 import com.pokemonarena.Global;
 import com.pokemonarena.Pokemon;
 import com.pokemonarena.player.HumanPlayer;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Arena implements Global {
 	private HumanPlayer p1,p2;
@@ -17,9 +20,9 @@ public class Arena implements Global {
 	//CONSTRUCTOR
 	public Arena() {
 		pokedex = new ArrayList<Pokemon>();
-		System.out.println("Please Enter the name for com.pokemonarena.player.Player 1:");
+		System.out.println("Please Enter the name for Player 1:");
 		p1 = new HumanPlayer(kb.nextLine());
-		System.out.println("Please Enter the name for com.pokemonarena.player.Player 2:");
+		System.out.println("Please Enter the name for Player 2:");
 		p2 = new HumanPlayer(kb.nextLine());
 		turn = coinToss();
 	}
