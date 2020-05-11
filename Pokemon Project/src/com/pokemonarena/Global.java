@@ -35,6 +35,10 @@ public interface Global
 	int CONFUSION = 36;
 	int NONE = 37;
 
+//PLAYERS
+	int P1 = 38;
+	int P2 = 39;
+
 //EEFECTIVENESS
 	/*HashMap[] typeChart = new HashMap[8];
 	c = new HashMap<Integer,Integer>();

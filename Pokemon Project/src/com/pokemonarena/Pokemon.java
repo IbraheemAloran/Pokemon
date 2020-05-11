@@ -4,6 +4,7 @@ import com.pokemonarena.move.Move;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Pokemon implements Global
 {
@@ -21,7 +22,7 @@ public class Pokemon implements Global
 
     public Pokemon(){}
 
-    public Pokemon(String[] data){
+    public Pokemon(String[] data) throws FileNotFoundException {
         stats = new int[6];
         moves = new Move[4];
         //Pikachu,11,100,6 stuff after
@@ -45,6 +46,15 @@ public class Pokemon implements Global
         moves[1] = new Move(data[2]);
         moves[2] = new Move(data[3]);
         moves[3] = new Move(data[4]);
+
+        //loading sprites
+        front = new Image("https://img.pokemondb.net/sprites/black-white/anim/normal/"+name+".gif", true);
+        back = new Image("https://img.pokemondb.net/sprites/black-white/anim/back-normal/"+name+".gif", true);
+
+        front = new Image(new FileInputStream("images/pokemon sprites/"+name.toLowerCase()+".gif"));
+        //back = new Image("https://img.pokemondb.net/sprites/black-white/anim/back-normal/"+name+".gif");
+        back = new Image(new FileInputStream("images/pokemon sprites/"+name.toLowerCase()+" (1).gif"));
+        //System.out.println("Could not load online sprites, will use offline sprites if available.");
     }
 
     public Pokemon(String name, int level, String[] moves) throws Exception{ //old constructor

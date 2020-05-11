@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class Player implements Global
 {
 	protected String name;
-	protected Pokemon[] pokemon;
+	protected Pokemon[] party;
 	private boolean whiteout;
 	protected Pokemon activePok;
 	protected Scanner sc;
@@ -16,31 +16,33 @@ public abstract class Player implements Global
 	public Player(String name)
 	{
 		this.name = name;
-		pokemon = new Pokemon[6];
+		party = new Pokemon[6];
 		for (int i = 0; i < 6; i++)
 		{
-			pokemon[i] = new Pokemon();
+			party[i] = new Pokemon();
 		}
 		whiteout = false;
 		sc = new Scanner(System.in);
 	}
 
-	public void addRandomPokemon(ArrayList<Pokemon> poks)
+	public void setRandomParty(ArrayList<Pokemon> pokedex)
 	{
 		Random rand = new Random();
 		for (int i = 0; i < 6; i++)
 		{
-			int num = rand.nextInt(poks.size());
+			int num = rand.nextInt(pokedex.size());
+			party[i] = pokedex.get(num);
 			//pokemon[i].setStats(poks.get(num));
-			poks.remove(num); //Don't remove it; need to implement this
+			//pokedex.remove(num); //Don't remove it; need to implement this
 		}
+		activePok = party[0];
 	}
 
 	public void displayPokemon()
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			if (!pokemon[i].isFainted()) System.out.println((i + 1) + ". " + pokemon[i]);
+			if (!party[i].isFainted()) System.out.println((i + 1) + ". " + party[i]);
 		}
 	}
 
@@ -48,13 +50,16 @@ public abstract class Player implements Global
 	{
 		return activePok;
 	}
+	public Pokemon[] getParty(){
+		return party;
+	}
 
 	public void setWhiteOut()
 	{
 		int count = 0;
 		for (int i = 0; i < 6; i++)
 		{
-			if (!pokemon[i].isFainted()) count++;
+			if (!party[i].isFainted()) count++;
 		}
 
 		if (count == 6) whiteout = true;

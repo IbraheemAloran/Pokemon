@@ -50,13 +50,13 @@ public class HumanPlayer extends Player
 		System.out.print("Type in the number beside the Pokemon that you'd like to choose: ");
 		int choice = sc.nextInt();
 		sc.nextLine();
-		while (choice < 1 || choice > 6 || !pokemon[choice].isFainted())
+		while (choice < 1 || choice > 6 || !party[choice].isFainted())
 		{
 			System.out.print("Type in the number beside the Pokemon that you'd like to choose: ");
 			choice = sc.nextInt();
 			sc.nextLine();	
 		}
 
-		activePok = pokemon[choice];
+		activePok = party[choice];
 	}
 }

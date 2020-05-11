@@ -26,12 +26,12 @@ import java.util.Scanner;
 public class PokemonArena extends Application implements Global {
 
     private HumanPlayer p1, p2;
-    private boolean turn;    //TRUE= p1 TURN, FALSE = p2 TURN
+    private int turn;    //P1 or P2
     private ArrayList<Pokemon> pokedex;        //LIST OF ALL POKEMON
     private Scanner kb;
 
-    private Pokemon[] party = new Pokemon[6];
-    private Pokemon activeClose, activeFar;
+    //private Pokemon[] p1.getParty() = new Pokemon[6];
+    //private Pokemon activeClose, activeFar;
 
     private Button[] moveButtons = new Button[4];
     private Button[] switchButtons = new Button[6];
@@ -65,6 +65,9 @@ public class PokemonArena extends Application implements Global {
         p1 = new HumanPlayer(kb.nextLine());
         System.out.println("Please Enter the name for Player 2:");
         p2 = new HumanPlayer(kb.nextLine());
+
+        p1.setRandomParty(pokedex);
+        p2.setRandomParty(pokedex);
         turn = coinToss();
 
         window.setTitle("Pokemon Arena");
@@ -102,27 +105,33 @@ public class PokemonArena extends Application implements Global {
     }
 
     //THIS FUNCTION DECIDES WHO STARTS THE MATCH
-    public boolean coinToss() {
+    public int coinToss() {
         //CHECK IF P1 HAS A FASTER POKEMON
         if (p1.getActivePok().getStats(SPEED) > p2.getActivePok().getStats(SPEED)) {
-            return true;
+            return P1;
         }
         //CHECK IF P2 HAS A FATSER POKEMON
         if (p1.getActivePok().getStats(SPEED) < p2.getActivePok().getStats(SPEED)) {
-            return false;
+            return P2;
         }
         //OTHERWISE DECIDES RANDOMLY
         else {
             Random rand = new Random();
-            return rand.nextBoolean();
+            if(rand.nextBoolean()){
+                return P1;
+            }
+            else{
+                return P2;
+            }
         }
     }
 
     //THIS FUNCTION LOADS ALL THE POKEMON FROM THE TEXT FILE
     private void loadPokemon() {
         Scanner inputStream = null;
+        pokedex = new ArrayList<>();
         try {
-            inputStream = new Scanner(new FileInputStream(""));
+            inputStream = new Scanner(new FileInputStream("pokemon-data.txt"));
             while (inputStream.hasNextLine()) {
                 String[] data = new String[5];
                 for (int i = 0; i < 5; i++) {
@@ -164,34 +173,36 @@ public class PokemonArena extends Application implements Global {
     }
 
     public void loadActivePokemon() throws Exception{
-        activeClose = new Pokemon("Blastoise", 100, new String[]{"Hydro pump", "Waterfall", "Water Pulse", "Water Dance"});
+        /*activeClose = new Pokemon("Blastoise", 100, new String[]{"Hydro pump", "Waterfall", "Water Pulse", "Water Dance"});
         activeFar = new Pokemon("Arceus", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
         party[0] = activeClose;
-        party[1] =  new Pokemon("Gyarados", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
-        party[2] =  new Pokemon("Ho-oh", 100,  new String[]{"rain dance", "Surf", "Water Pulse", "Hydro pump"});
-        party[3] =  new Pokemon("Rhyperior", 100,  new String[]{"earthquake", "Surf", "Water Pulse", "Hydro pump"});
-        party[4] =  new Pokemon("Arceus", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
-        party[5] =  new Pokemon("blastoise", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
-        party[5].setFainted();
-        imageViewActiveClose = new ImageView(activeClose.getBack());
-        imageViewActiveFar = new ImageView(activeFar.getFront());
+        p1.getParty()[1] =  new Pokemon("Gyarados", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
+        p1.getParty()[2] =  new Pokemon("Ho-oh", 100,  new String[]{"rain dance", "Surf", "Water Pulse", "Hydro pump"});
+        p1.getParty()[3] =  new Pokemon("Rhyperior", 100,  new String[]{"earthquake", "Surf", "Water Pulse", "Hydro pump"});
+        p1.getParty()[4] =  new Pokemon("Arceus", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
+        p1.getParty()[5] =  new Pokemon("blastoise", 100,  new String[]{"Water dance", "Surf", "Water Pulse", "Hydro pump"});
+        p1.getParty()[5].setFainted();*/
+
+
+        imageViewActiveClose = new ImageView(p1.getActivePok().getBack());
+        imageViewActiveFar = new ImageView(p2.getActivePok().getFront());
 
         battleGraphics.getChildren().add(imageViewActiveClose);
         battleGraphics.getChildren().add(imageViewActiveFar);
 
-        closeNameLabel = new Label(activeClose.getName()+" lvl."+activeClose.getLevel());
+        closeNameLabel = new Label(p1.getActivePok().getName()+" lvl."+p1.getActivePok().getLevel());
 
-        pbClose = new ProgressBar(activeClose.getStats(HP)/activeClose.getMaxHP());
+        pbClose = new ProgressBar(p1.getActivePok().getStats(HP)/p1.getActivePok().getMaxHP());
 
-        farNameLabel = new Label(activeFar.getName()+" lvl."+activeFar.getLevel());
+        farNameLabel = new Label(p2.getActivePok().getName()+" lvl."+p2.getActivePok());
 
-        pbFar = new ProgressBar(activeFar.getStats(HP)/activeFar.getMaxHP());
+        pbFar = new ProgressBar(p2.getActivePok().getStats(HP)/p2.getActivePok().getMaxHP());
     }
 
     public void updateActivePokemon(){
         //-----------------close---------------------------------------
         //setting the image view of active pokemon in play
-        imageViewActiveClose.setImage(activeClose.getBack());
+        imageViewActiveClose.setImage(p1.getActivePok().getBack());
 
         //setting the fit height and width of the image view
         imageViewActiveClose.setScaleX(2);
@@ -203,19 +214,19 @@ public class PokemonArena extends Application implements Global {
         imageViewActiveClose.setY(300);
 
         //getName()
-        closeNameLabel.setText(activeClose.getName()+" lvl."+activeClose.getLevel());
+        closeNameLabel.setText(p1.getActivePok().getName()+" lvl."+p1.getActivePok().getLevel());
         closeNameLabel.setLayoutX(90);
         closeNameLabel.setLayoutY(196);
 
         //HPbar
-        pbClose.setProgress(activeClose.getStats(HP)/activeClose.getMaxHP());
+        pbClose.setProgress(p1.getActivePok().getStats(HP)/p1.getActivePok().getMaxHP());
         pbClose.setMinWidth(180);
         //pbClose.setMinHeight(10);
         pbClose.setLayoutX(80);
         pbClose.setLayoutY(220);
 
         //---------------------far-----------------------------------------
-        imageViewActiveFar.setImage(activeFar.getFront());
+        imageViewActiveFar.setImage(p2.getActivePok().getFront());
 
         //setting the fit height and width of the image view
         imageViewActiveFar.setScaleX(2);
@@ -226,11 +237,11 @@ public class PokemonArena extends Application implements Global {
         imageViewActiveFar.setY(100);
 
         //label
-        farNameLabel.setText(activeFar.getName()+" lvl."+activeFar.getLevel());
+        farNameLabel.setText(p2.getActivePok().getName()+" lvl."+p2.getActivePok().getLevel());
         farNameLabel.setLayoutX(550);
         farNameLabel.setLayoutY(16);
         //Hpbar
-        pbFar.setProgress(activeFar.getStats(HP)/activeFar.getMaxHP());
+        pbFar.setProgress(p2.getActivePok().getStats(HP)/p2.getActivePok().getMaxHP());
         pbFar.setLayoutX(530);
         pbFar.setLayoutY(40);
         pbFar.setMinWidth(180);
@@ -324,20 +335,22 @@ public class PokemonArena extends Application implements Global {
         switchLayout.setMinWidth(800);
         switchLayout.setAlignment(Pos.CENTER);
 
-        for(int i=0; i<party.length; i++){
-            ImageView buttonImage = new ImageView(party[i].getFront());
+        for(int i=0; i<p1.getParty().length; i++){
+            ImageView buttonImage = new ImageView(p1.getParty()[i].getFront());
             buttonImage.setFitHeight(25);
             buttonImage.setFitWidth(25);
-            switchButtons[i] = new Button(party[i].getName(), buttonImage);
+            switchButtons[i] = new Button(p1.getParty()[i].getName(), buttonImage);
             switchButtons[i].setMinHeight(50);
             switchButtons[i].setMinWidth(100);
-            Tooltip t = new Tooltip("getName(): "+party[i].getName()+"\ngetLevel(): "+party[i].getLevel());
+            Tooltip t = new Tooltip("Name: "+p1.getParty()[i].getName()+"" +
+                                        "\nLevel: "+p1.getParty()[i].getLevel()+""+
+                                        "\nAttack "+p1.getActivePok().getStats(ATTACK));
             Tooltip.install(switchButtons[i], t);
 
-            String message = "\nSwitched to "+party[i].getName();
-            Pokemon newPokemon = party[i];
+            String message = "\nSwitched to "+p1.getParty()[i].getName();
+            Pokemon newPokemon = p1.getParty()[i];
             switchButtons[i].setOnAction(e -> {
-                if(activeClose == newPokemon){
+                if(p1.getActivePok() == newPokemon){
                     battleInfo.appendText("\n"+newPokemon.getName()+" is already active!");
                 }
                 else{
@@ -352,13 +365,13 @@ public class PokemonArena extends Application implements Global {
 
     /**makes sure the the active Pokemons button has a blue border and makes sure all fainted pokemons buttons are disabled.*/
     public void updateSwitchButtons(){
-        for(int i=0; i<party.length; i++){
-            if(party[i] == activeClose){
+        for(int i=0; i<p1.getParty().length; i++){
+            if(p1.getParty()[i] == p1.getActivePok()){
                 switchButtons[i].setId("active-button");
             }
             else{
                 switchButtons[i].setId("button");
-                if(party[i].isFainted()){
+                if(p1.getParty()[i].isFainted()){
                     switchButtons[i].setDisable(true);
                 }
                 else{
@@ -370,8 +383,8 @@ public class PokemonArena extends Application implements Global {
     
 
     public void attack(String message){
-        Pokemon defending = activeFar;
-        Pokemon attacking = activeClose;
+        Pokemon defending = p2.getActivePok();
+        Pokemon attacking = p1.getActivePok();
         battleInfo.appendText(message);
         defending.setStats(HP, defending.getStats(HP) - 10);
         try {
@@ -387,7 +400,7 @@ public class PokemonArena extends Application implements Global {
 
     public void switchPokemon(String message, Pokemon newP){
         battleInfo.appendText(message);
-        activeClose = newP;
+         newP = p1.getActivePok();
 
         try{
             updateActivePokemon();

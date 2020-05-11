@@ -88,8 +88,8 @@ public class Arena implements Global {
 	
 	//THIS FUNCTION STARTS THE BATTLE SIMULATION
 	public void start() {
-		p1.addRandomPokemon(pokedex);
-		p2.addRandomPokemon(pokedex);
+		p1.setRandomParty(pokedex);
+		p2.setRandomParty(pokedex);
 		battle();
 	}
 	
