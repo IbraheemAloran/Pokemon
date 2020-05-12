@@ -7,10 +7,9 @@ some minor differences, such as not accounting for some modifiers.
 Currently only 2-player matches on the smae PC are supported, but in the future we hope to implement AI players and playing
 with two PC's through a LAN connection.
 
-##Screenshots
+## Screenshots
 Battle screenshot:
 
-![Screenshot of the battle scene](Pokemon%20Project/images/Battle-ScreenShot.jpeg)
-
+![Screenshot of the battle scene](Battle-ScreenShot.jpeg)
 
 

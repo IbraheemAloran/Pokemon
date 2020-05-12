@@ -1,6 +1,3 @@
-package com.pokemonarena;
-
-import java.util.HashMap;
 import java.util.HashMap.*;
 
 public interface Global
