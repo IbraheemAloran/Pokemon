@@ -1,14 +1,11 @@
-package com.pokemonarena;
-
-import java.util.HashMap;
 import java.util.HashMap.*;
 
 public interface Global
 {
 	int HP = 0;
 	int ATTACK = 1;
-	int DEFENSE = 2;
-	int SATTACK = 3;
+	int SATTACK = 2;
+	int DEFENSE = 3;
 	int SDEFENSE = 4;
 	int SPEED = 5;
 	int SPECIAL = 7;
@@ -33,10 +30,10 @@ public interface Global
 	int FREEZE = 34;
 	int FLINCH = 35;
 	int CONFUSION = 36;
-	int NONE = 37;
+	int NORMAL = 37;
 
 //EEFECTIVENESS
-	/*HashMap[] typeChart = new HashMap[8];
+	HashMap[] typeChart = new HashMap[8];
 	c = new HashMap<Integer,Integer>();
 	typeChart[0] = new HashMap<Integer,Integer>();
 	typeChart[1] = new HashMap<Integer,Integer>();
@@ -123,5 +120,5 @@ public interface Global
 	typeChart[7].put(WATER, 1);
 	typeChart[7].put(NORMAL, 0);
 	typeChart[7].put(PSYCHIC, 2);
-	typeChart[7].put(DARK, 0.5);*/
+	typeChart[7].put(DARK, 0.5);
 }
