@@ -8,6 +8,7 @@ import java.util.*;
 public class Move implements Global {
 	private String name;
 	private int pp;
+	private int maxPP;
 	private int type;
 	private int power;
 	private Effect effect;
@@ -21,6 +22,7 @@ public class Move implements Global {
 		String[] info = data.split(",");
 		name = info[0];
 		pp = Integer.parseInt(info[1]);
+		maxPP = pp;
 		type = Integer.parseInt(info[2]);
 		power = Integer.parseInt(info[3]);
 		acc = Integer.parseInt(info[4]);
@@ -69,5 +71,76 @@ public class Move implements Global {
 
 	public String getName(){
 		return name;
+	}
+
+	public int getPp() {
+		return pp;
+	}
+
+	public void setPp(int pp) {
+		this.pp = pp;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+	public Effect getEffect() {
+		if(effect!=null){
+			return effect;
+		}
+		else{
+			return new Effect();
+		}
+	}
+
+	public void setEffect(Effect effect) {
+		this.effect = effect;
+	}
+
+	public int getAcc() {
+		return acc;
+	}
+
+	public void setAcc(int acc) {
+		this.acc = acc;
+	}
+
+	public int getCat() {
+		return cat;
+	}
+
+	public void setCat(int cat) {
+		this.cat = cat;
+	}
+
+	public int getMaxPP() {
+		return maxPP;
+	}
+
+	public void setMaxPP(int maxPP) {
+		this.maxPP = maxPP;
+	}
+
+	/**
+	 * Used to easily display move information
+	 * @return
+	 */
+	@Override
+	public String toString() {
+		return "PP: "+getPp()+"/"+getMaxPP()+"\n" +
+				"Type: "+getType()+"\nCategory: "+getCat()+"\nPower: "+getPower()+"\nEffect: "+getEffect();
 	}
 }

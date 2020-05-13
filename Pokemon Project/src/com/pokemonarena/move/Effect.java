@@ -7,6 +7,8 @@ public class Effect
 	private int prob;
 	private int fx;
 
+	public Effect(){}
+
 	public Effect(String data){
 		String[] info = data.split(" ");
 		//info[0] = prob;
@@ -21,5 +23,34 @@ public class Effect
 		int choice = rand.nextInt(100);
 		if (choice <= prob) return true;
 		return false; 
+	}
+
+	public int getProb() {
+		return prob;
+	}
+
+	public void setProb(int prob) {
+		this.prob = prob;
+	}
+
+	public int getFx() {
+		return fx;
+	}
+
+	public void setFx(int fx) {
+		this.fx = fx;
+	}
+
+	@Override
+	public String toString() {
+		if(fx==0){
+			return "";
+		}
+		else{
+			return "Effect{" +
+					"prob=" + prob +
+					", fx=" + fx +
+					'}';
+		}
 	}
 }
