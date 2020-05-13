@@ -50,8 +50,13 @@ public abstract class Player implements Global
 	{
 		return activePok;
 	}
+
 	public Pokemon[] getParty(){
 		return party;
+	}
+
+	public void setActivePok(Pokemon newActive){
+		activePok = newActive;
 	}
 
 	public void setWhiteOut()

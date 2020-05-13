@@ -2,6 +2,7 @@ package com.pokemonarena.graphics;
 
 import com.pokemonarena.Global;
 import com.pokemonarena.Pokemon;
+import com.pokemonarena.move.Move;
 import com.pokemonarena.player.HumanPlayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -285,13 +286,14 @@ public class PokemonArena extends Application implements Global {
 
     //updates the moves the move buttons hold
     public void updateMoveButtons(){ //must implement with new moves
-        /*for(int i=0; i<4; i++){
-            moveButtons[i].setText(activeClose.getMoves(i).getName()+"\nPP: 25/25");
-            String message = "\n"+activeClose.getName()+" Used "+activeClose.getMoves(i).getName()+"!";
+        for(int i=0; i<4; i++){
+            Move currentMove = p1.getActivePok().getMoves(i);
+            moveButtons[i].setText(currentMove.getName()+"\nPP: "+currentMove.getPp()+"/"+currentMove.getMaxPP());
+            String message = "\n"+p1.getActivePok().getName()+" Used "+currentMove.getName()+"!";
             moveButtons[i].setOnAction(e -> attack(message));
-            Tooltip t = new Tooltip("PP: 25/25\nType: Water\nCategory: Special\nPower: 150\n com.pokemonarena.move.Effect: Does tons of damage");
+            Tooltip t = new Tooltip(""+currentMove);
             Tooltip.install(moveButtons[i], t);
-        }*/
+        }
     }
 
     public void loadMoveButtons(){
@@ -400,7 +402,7 @@ public class PokemonArena extends Application implements Global {
 
     public void switchPokemon(String message, Pokemon newP){
         battleInfo.appendText(message);
-         newP = p1.getActivePok();
+         p1.setActivePok(newP);
 
         try{
             updateActivePokemon();
@@ -412,27 +414,3 @@ public class PokemonArena extends Application implements Global {
         }
     }
 }
-
-
-/*Timer is used to schedule tasks.. So where do you write those tasks?? Well you have to write those tasks in a TimerTask class...
-
-Confused ? Let me break it down,
-
-Timer timer = new Timer();
-Now you have created a object of Timer class .. Now you have to do some task right? So to do that create an object of TimerTask.
-
-TimerTask task = new TimerTask()
-{
-        public void run()
-        {
-            //The task you want to do
-        }
-
-};
-Now you have created a task where you should be defining the tasks you want to do inside the run method..
-
-Why have I written a TimerTask class itself?? Thats because TimerTask is a abstract class with three methods.. So you need to define whichever method you want to use..
-
-Now scheduling the task
-
-timer.schedule(task,5000l);*/
