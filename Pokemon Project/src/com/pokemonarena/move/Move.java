@@ -140,7 +140,7 @@ public class Move implements Global {
 	 */
 	@Override
 	public String toString() {
-		return "PP: "+getPp()+"/"+getMaxPP()+"\n" +
-				"Type: "+getType()+"\nCategory: "+getCat()+"\nPower: "+getPower()+"\nEffect: "+getEffect();
+		return "Name: "+getName()+"\nPP: "+getPp()+"/"+getMaxPP()+"\n" +
+				"Type: "+getType()+"\nCategory: "+getCat()+"\nPower: "+getPower()+"\nEffect: "+getEffect()+"\n";
 	}
 }

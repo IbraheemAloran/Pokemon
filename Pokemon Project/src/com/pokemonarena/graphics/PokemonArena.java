@@ -344,9 +344,7 @@ public class PokemonArena extends Application implements Global {
             switchButtons[i] = new Button(p1.getParty()[i].getName(), buttonImage);
             switchButtons[i].setMinHeight(50);
             switchButtons[i].setMinWidth(100);
-            Tooltip t = new Tooltip("Name: "+p1.getParty()[i].getName()+"" +
-                                        "\nLevel: "+p1.getParty()[i].getLevel()+""+
-                                        "\nAttack "+p1.getActivePok().getStats(ATTACK));
+            Tooltip t = new Tooltip(""+p1.getParty()[i]);
             Tooltip.install(switchButtons[i], t);
 
             String message = "\nSwitched to "+p1.getParty()[i].getName();

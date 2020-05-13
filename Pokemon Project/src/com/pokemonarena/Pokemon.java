@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class Pokemon implements Global
 {
@@ -175,6 +176,14 @@ public class Pokemon implements Global
 
     public void setStats(int i, int value){
         stats[i] = value;
+    }
+
+    @Override
+    public String toString() {
+        return  "Type: " + type +
+                "\nLevel: " + level +
+                "\nstats: " + Arrays.toString(stats) +
+                "\nmoves: " + Arrays.toString(moves);
     }
 }
 
